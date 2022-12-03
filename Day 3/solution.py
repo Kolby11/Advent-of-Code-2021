@@ -14,88 +14,62 @@ def ProcessInput():
     return numbers
 
 
-def GetMostOccurentNumber(nums):
-    occurence = [0, 0]
-    for number in nums:
-        if number == "0":
-            occurence[0] += 1
-        if number == "1":
-            occurence[1] += 1
-    if occurence[0] > occurence[1]:
-        return "0"
-    elif occurence[1] > occurence[0]:
-        return "1"
-    else:
-        return "1"
+def GetCommonNumber(numbers):
+    # index 0=most common
+    # index 1=least common
+    if numbers.count("0") > numbers.count("1"):
+        return ["0", "1"]
+    return ["1", "0"]
 
 
-def GetLeastOccurentNumber(nums):
-    occurence = [0, 0]
-    for number in nums:
-        if number == "0":
-            occurence[0] += 1
-        if number == "1":
-            occurence[1] += 1
-    if occurence[0] > occurence[1]:
-        return "1"
-    elif occurence[1] > occurence[0]:
-        return "0"
-    else:
-        return "0"
+def GetOxygenRating(numbers):
+    while len(numbers) > 1:
+        for bitPos in range(len(numbers[0])):
+            collumn = []
+            for number in numbers:
+                collumn.append(number[bitPos])
+            for number in numbers:
+                if len(numbers) == 1:
+                    return numbers[0]
+                if number[bitPos] == GetCommonNumber(collumn)[0]:
+                    numbers.remove(number)
 
 
-def GetPowerConsumption():
+def GetC02Rating(numbers):
+    while len(numbers) > 1:
+        for bitPos in range(len(numbers[0])):
+            collumn = []
+            for number in numbers:
+                collumn.append(number[bitPos])
+            for number in numbers:
+                if len(numbers) == 1:
+                    return numbers[0]
+                if number[bitPos] == GetCommonNumber(collumn)[1]:
+                    numbers.remove(number)
+
+
+def Part1():
+    numbers = ProcessInput()
     gamma = ""
     epsilon = ""
     collumn = []
-    for i, digit in enumerate(numbers[0]):
+    for i in range(len(numbers[0])):
         for number in numbers:
             collumn.append(number[i])
-        gamma += GetMostOccurentNumber(collumn)
-        epsilon += GetLeastOccurentNumber(collumn)
+        gamma += GetCommonNumber(collumn)[0]
+        epsilon += GetCommonNumber(collumn)[1]
         collumn = []
 
-    gamma = int(gamma, 2)
-    epsilon = int(epsilon, 2)
-    return gamma * epsilon
+    return int(gamma, 2) * int(epsilon, 2)
 
 
-def GetLifeSupportRating(nums):
-    collumn = []
-    for i in range(len(nums[0])):
-        for j in range(2):
-            for number in nums:
-                if j == 0:
-                    collumn.append(nums[i])
-                if j == 1:
-                    if number[i] != occurence:
-                        nums.remove(number)
-            occurence = GetMostOccurentNumber(collumn)
-            print(occurence)
-            collumn = []
-    return nums
+def Part2():
+    oxygen = int(GetOxygenRating(ProcessInput()), 2)
+    c02 = int(GetC02Rating(ProcessInput()), 2)
+    return oxygen * c02
 
 
-def GetC02Rating(nums):
-    collumn = []
-    for i in range(len(nums[0])):
-        for j in range(2):
-            for number in nums:
-                if j == 0:
-                    collumn.append(number[i])
-                if j == 1:
-                    if number[i] != occurence:
-                        nums.remove(number)
-            occurence = GetLeastOccurentNumber(collumn)
-            print(occurence)
-            collumn = []
-    return nums
-
-
-numbers = ProcessInput()
-# print(GetPowerConsumption())
+print(Part1())
 # 1025636
-print(GetLifeSupportRating(numbers))
-numbers = ProcessInput()
-print("------------------------")
-print(GetC02Rating(numbers))
+print(Part2())
+# 4364380
