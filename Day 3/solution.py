@@ -23,29 +23,33 @@ def GetCommonNumber(numbers):
 
 
 def GetOxygenRating(numbers):
-    while len(numbers) > 1:
+    while True:
         for bitPos in range(len(numbers[0])):
+            if len(numbers) == 1:
+                return numbers[0]
+            newNumbers = []
             collumn = []
             for number in numbers:
                 collumn.append(number[bitPos])
             for number in numbers:
-                if len(numbers) == 1:
-                    return numbers[0]
-                if number[bitPos] == GetCommonNumber(collumn)[0]:
-                    numbers.remove(number)
+                if number[bitPos] != GetCommonNumber(collumn)[0]:
+                    newNumbers.append(number)
+            numbers = newNumbers
 
 
 def GetC02Rating(numbers):
-    while len(numbers) > 1:
+    while True:
         for bitPos in range(len(numbers[0])):
+            if len(numbers) == 1:
+                return numbers[0]
+            newNumbers = []
             collumn = []
             for number in numbers:
                 collumn.append(number[bitPos])
             for number in numbers:
-                if len(numbers) == 1:
-                    return numbers[0]
-                if number[bitPos] == GetCommonNumber(collumn)[1]:
-                    numbers.remove(number)
+                if number[bitPos] != GetCommonNumber(collumn)[1]:
+                    newNumbers.append(number)
+            numbers = newNumbers
 
 
 def Part1():
@@ -72,4 +76,4 @@ def Part2():
 print(Part1())
 # 1025636
 print(Part2())
-# 4364380
+# 793873
