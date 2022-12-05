@@ -28,13 +28,13 @@ def ProcessInput():
             number = ""
             for c, char in enumerate(line):
                 if (c + 1) % 3 == 0:
-                    row.append(number)
+                    row.append(int(number))
                     number = ""
                 else:
                     number += char
             # last line
             if i == len(lines) - 1:
-                row.append(number)
+                row.append(int(number))
             board.append(row)
     boards.append(Board(board))
 
@@ -50,7 +50,6 @@ class Board:
                     self.board[rowIndex][collumnIndex] = "x"
                 if (self.CheckHorizontal(rowIndex)) or self.CheckVertical(collumnIndex):
                     return True
-
         return None
 
     def GetUnmarkedNumbers(self):
@@ -84,13 +83,22 @@ ProcessInput()
 
 def Part1():
     for number in drawnNumbers:
-        for board in boards:
-            if board.MarkNumber(number) == True:
-                print(board.GetUnmarkedNumbers())
+        for i, board in enumerate(boards):
+            if board.MarkNumber(int(number)) == True:
                 return sum(board.GetUnmarkedNumbers()) * int(number)
 
 
-print(Part1())
-# 65700
+def Part2():
+    tempBoards = boards
+    for number in drawnNumbers:
+        for i, board in enumerate(tempBoards):
+            if board.MarkNumber(int(number)) == True:
+                if len(tempBoards) == 1:
+                    return sum(board.GetUnmarkedNumbers()) * int(number)
+                tempBoards.remove(board)
 
-# print(Part2())
+
+print(Part1())
+# 65325
+print(Part2())
+# 4624
